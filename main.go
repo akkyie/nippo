@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/akkyie/nippo/api"
+	"github.com/akkyie/nippo/nippo"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -23,6 +24,7 @@ func main() {
 	}
 
 	ctx := context.Background()
+	now := time.Now()
 
 	client := api.NewClient(ctx, env.GithubAccessToken)
 
@@ -31,34 +33,11 @@ func main() {
 		log.Fatalf("failed to get current user: %v", err)
 	}
 
-	issues, err := client.ListIssues(ctx, username)
+	issues, err := client.ListIssues(ctx, username, now)
 	if err != nil {
 		log.Fatalf("failed to list issues: %v", err)
 	}
 
-	nippo := makeNippo(issues)
+	nippo := nippo.MakeNippo(issues, now)
 	fmt.Print(nippo)
-}
-
-func makeNippo(issues []api.Issue) string {
-	today := time.Now().Format("2006-01-02")
-
-	issueList := ""
-	for _, issue := range issues {
-		issueList += fmt.Sprintf("• %s %s\n", issue.Title, issue.URL)
-	}
-
-	template := `📅 日報 %s
-*今日やること*
-• …
-
-*昨日やったこと*
-• …
-%s
-
-*業務で気づいたこと*
-• …
-`
-
-	return fmt.Sprintf(template, today, issueList)
 }

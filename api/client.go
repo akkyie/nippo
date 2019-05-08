@@ -37,9 +37,9 @@ func (client *Client) GetUsername(ctx context.Context) (string, error) {
 }
 
 // ListIssues lists issues including pull requests updated since yesterday
-func (client *Client) ListIssues(ctx context.Context, username string) ([]Issue, error) {
+func (client *Client) ListIssues(ctx context.Context, username string, now time.Time) ([]Issue, error) {
 	options := &github.SearchOptions{Sort: "updated", Order: "asc"}
-	yesterday := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
+	yesterday := now.AddDate(0, 0, -1).Format("2006-01-02")
 	query := fmt.Sprintf("updated:>=%s involves:%s", yesterday, username)
 	result, _, err := client.gh.Search.Issues(ctx, query, options)
 	if err != nil {

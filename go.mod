@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/joho/godotenv v1.3.0
 	github.com/kelseyhightower/envconfig v1.3.0
 	github.com/sergi/go-diff v1.0.0
 	github.com/shurcooL/githubv4 v0.0.0-20190119021625-d9689b595017

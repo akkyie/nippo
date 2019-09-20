@@ -8,6 +8,7 @@ import (
 
 	"github.com/akkyie/nippo/api"
 	"github.com/akkyie/nippo/nippo"
+	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -17,6 +18,10 @@ type Env struct {
 }
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("failed to load .env: %v", err)
+	}
+
 	var env Env
 	err := envconfig.Process("", &env)
 	if err != nil {

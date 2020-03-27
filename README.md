@@ -4,5 +4,5 @@
 
 ```sh
 # $GITHUB_ACCESS_TOKEN has to be set.
-$ nippo
+$ go run main.go
 ```
